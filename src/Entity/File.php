@@ -20,6 +20,9 @@ class File
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $created_at = null;
 
+    #[ORM\ManyToOne(inversedBy: 'file')]
+    private ?User $account = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -45,6 +48,18 @@ class File
     public function setCreatedAt(\DateTimeInterface $created_at): static
     {
         $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    public function getAccount(): ?User
+    {
+        return $this->account;
+    }
+
+    public function setAccount(?User $account): static
+    {
+        $this->account = $account;
 
         return $this;
     }

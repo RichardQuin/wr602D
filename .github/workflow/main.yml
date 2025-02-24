@@ -3,7 +3,7 @@ name: Verify test when push on develop
 on:
   push:
     branches:
-      - develop
+      - developp
 
 jobs:
   verify:

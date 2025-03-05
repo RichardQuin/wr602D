@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+
 use App\Service\PdfGeneratorService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -37,23 +38,10 @@ class PdfController extends AbstractController
             $url = $form->getData()['url'];
 
             // Génération du PDF via le service
-            $pdf = $pdfGeneratorService->generatePdfFromUrl($url);
+            $response = $pdfGeneratorService->generatePdfFromUrl($url);
 
-            // Vérification si le PDF a bien été généré
-            if (!$pdf) {
-                $this->addFlash('error', 'La génération du PDF a échoué.');
-                return $this->redirectToRoute('generate_pdf');
-            }
-
-            // Retourne le PDF sous forme de téléchargement
-            return new Response(
-                $pdf,
-                Response::HTTP_OK,
-                [
-                    'Content-Type' => 'application/pdf',
-                    'Content-Disposition' => 'attachment; filename="document.pdf"',
-                ]
-            );
+            // Retourner directement la réponse générée par le service
+            return $response;
         }
 
         // Affichage du formulaire

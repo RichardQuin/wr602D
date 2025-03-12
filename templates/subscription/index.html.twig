@@ -5,8 +5,70 @@
 {% block title %}Changer d'abonnement{% endblock %}
 
 {% block body %}
-    <div class="container">
-        <h1>Changer d'abonnement</h1>
-        <p>Choisissez votre nouvel abonnement.</p>
+    <div class="container mx-auto px-4 py-16 max-w-6xl">
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-gray-900 mb-4">Choisissez votre abonnement</h1>
+            <p class="text-xl text-gray-600">Sélectionnez le plan qui correspond le mieux à vos besoins</p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8">
+            <div class="bg-white border border-gray-200 rounded-lg p-8 text-center hover:shadow-xl transition-all duration-300 ease-in-out">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Basique</h2>
+                <div class="text-4xl font-bold text-blue-600 mb-6">9,99€
+                    <span class="text-base text-gray-500 block">par mois</span>
+                </div>
+                <ul class="mb-8 space-y-3 text-gray-600">
+                    <li>Génération de PDF illimitée</li>
+                    <li>5 conversions par jour</li>
+                    <li>Support par email</li>
+                </ul>
+                <button class="w-full bg-blue-600 text-white py-3 rounded-md hover:bg-blue-700 transition-colors">
+                    Sélectionner
+                </button>
+            </div>
+
+            <div class="bg-white border border-gray-200 rounded-lg p-8 text-center hover:shadow-xl transition-all duration-300 ease-in-out relative">
+                <div class="absolute top-0 right-0 bg-blue-600 text-white px-4 py-2 rounded-bl-lg">
+                    Recommandé
+                </div>
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Pro</h2>
+                <div class="text-4xl font-bold text-blue-600 mb-6">19,99€
+                    <span class="text-base text-gray-500 block">par mois</span>
+                </div>
+                <ul class="mb-8 space-y-3 text-gray-600">
+                    <li>Génération de PDF illimitée</li>
+                    <li>20 conversions par jour</li>
+                    <li>Support prioritaire</li>
+                    <li>Édition de PDF</li>
+                </ul>
+                <button class="w-full bg-blue-600 text-white py-3 rounded-md hover:bg-blue-700 transition-colors">
+                    Sélectionner
+                </button>
+            </div>
+
+            <div class="bg-white border border-gray-200 rounded-lg p-8 text-center hover:shadow-xl transition-all duration-300 ease-in-out">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-4">Entreprise</h2>
+                <div class="text-4xl font-bold text-blue-600 mb-6">49,99€
+                    <span class="text-base text-gray-500 block">par mois</span>
+                </div>
+                <ul class="mb-8 space-y-3 text-gray-600">
+                    <li>Génération de PDF illimitée</li>
+                    <li>Conversions illimitées</li>
+                    <li>Support premium 24/7</li>
+                    <li>Édition avancée de PDF</li>
+                    <li>API personnalisée</li>
+                </ul>
+                <button class="w-full bg-blue-600 text-white py-3 rounded-md hover:bg-blue-700 transition-colors">
+                    Sélectionner
+                </button>
+            </div>
+        </div>
+
+        <div class="mt-12 text-center">
+            <p class="text-gray-600">
+                Besoin d'aide pour choisir ?
+                <a href="#" class="text-blue-600 hover:underline">Contactez notre support</a>
+            </p>
+        </div>
     </div>
 {% endblock %}

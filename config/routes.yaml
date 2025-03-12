@@ -5,7 +5,7 @@ controllers:
     type: attribute
 app_login:
     path: /login
-    controller: App\Controller\SecurityController::login
+    controller: App\Controller\LoginController::login
 
 homepage:
     path: /
@@ -22,3 +22,7 @@ history:
 pdf_generation:
     path: /pdf/generate
     controller: App\Controller\PdfController::generatePdf
+
+register:
+    path: /register
+    controller: App\Controller\RegistrationController::register

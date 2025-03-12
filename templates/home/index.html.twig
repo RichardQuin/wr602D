@@ -2,11 +2,46 @@
 
 {% extends 'base.html.twig' %}
 
-{% block title %}Page d'accueil{% endblock %}
+{% block title %}Générateur de PDF{% endblock %}
 
 {% block body %}
-    <div class="container">
-        <h1>Bienvenue sur notre site</h1>
-        <p>Page d'accueil avec un message générique.</p>
+    <div class="container mx-auto px-4 py-8 md:py-16 max-w-4xl">
+        <div class="text-center">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4 md:mb-6">Transformez vos documents en PDF</h1>
+            <p class="text-lg md:text-xl text-gray-600 mb-8 md:mb-10">Conversion simple, rapide et sécurisée de tous vos fichiers</p>
+
+            <div class="flex flex-col sm:flex-row justify-center sm:space-x-4 space-y-4 sm:space-y-0 mb-8 md:mb-12">
+                <a href="{{ path('pdf_generation') }}" class="bg-blue-600 text-white px-6 md:px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors text-base md:text-lg font-semibold">
+                    Générer un PDF
+                </a>
+                <a href="{{ path('subscription_change') }}" class="bg-gray-100 text-gray-800 px-6 md:px-8 py-3 rounded-lg hover:bg-gray-200 transition-colors text-base md:text-lg">
+                    Nos forfaits
+                </a>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+                <div class="bg-white p-4 md:p-6 rounded-lg shadow-md">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 md:h-12 md:w-12 mx-auto mb-3 md:mb-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+                    </svg>
+                    <h3 class="text-lg md:text-xl font-semibold mb-2 text-center">Rapide</h3>
+                    <p class="text-sm md:text-base text-gray-600 text-center">Conversion instantanée de vos documents</p>
+                </div>
+                <div class="bg-white p-4 md:p-6 rounded-lg shadow-md">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 md:h-12 md:w-12 mx-auto mb-3 md:mb-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <h3 class="text-lg md:text-xl font-semibold mb-2 text-center">Sécurisé</h3>
+                    <p class="text-sm md:text-base text-gray-600 text-center">Vos documents sont protégés et confidentiels</p>
+                </div>
+                <div class="bg-white p-4 md:p-6 rounded-lg shadow-md">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 md:h-12 md:w-12 mx-auto mb-3 md:mb-4 text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.768-.231-1.49-.637-2.1M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.768.231-1.49.637-2.1m0 0A5.982 5.982 0 0112 12a5.982 5.982 0 015.364 2.857M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    <h3 class="text-lg md:text-xl font-semibold mb-2 text-center">Facile</h3>
+                    <p class="text-sm md:text-base text-gray-600 text-center">Interface utilisateur intuitive</p>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}

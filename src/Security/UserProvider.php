@@ -2,35 +2,42 @@
 
 namespace App\Security;
 
-use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
+use App\Repository\UserRepository;  // Assurez-vous que vous avez correctement importé le repository
+use App\Entity\User;
 use Symfony\Component\Security\Core\Exception\UserNotFoundException;
-use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
-use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
+use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 
-class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
+class UserProvider implements UserProviderInterface
 {
-    /**
-     * Symfony calls this method if you use features like switch_user
-     * or remember_me.
-     *
-     * If you're not using these features, you do not need to implement
-     * this method.
-     *
-     * @throws UserNotFoundException if the user is not found
-     */
-    public function loadUserByIdentifier($identifier): UserInterface
+    private UserRepository $userRepository;
+
+    // Injectez UserRepository via le constructeur
+    public function __construct(UserRepository $userRepository)
     {
-        // Load a User object from your data source or throw UserNotFoundException.
-        // The $identifier argument may not actually be a username:
-        // it is whatever value is being returned by the getUserIdentifier()
-        // method in your User class.
-        throw new \Exception('TODO: fill in loadUserByIdentifier() inside '.__FILE__);
+        $this->userRepository = $userRepository;
     }
 
     /**
-     * @deprecated since Symfony 5.3, loadUserByIdentifier() is used instead
+     * Charge un utilisateur par son identifiant (généralement l'email).
+     */
+    public function loadUserByIdentifier($identifier): UserInterface
+    {
+        // Recherche de l'utilisateur dans la base de données par email
+        $user = $this->userRepository->findOneBy(['email' => $identifier]);
+
+        // Si l'utilisateur n'est pas trouvé, on lance une exception
+        if (!$user) {
+            throw new UserNotFoundException('Utilisateur non trouvé.');
+        }
+
+        return $user;
+    }
+
+    /**
+     * Méthode dépréciée dans Symfony 5.3 et plus.
+     * Elle est redirigée vers loadUserByIdentifier().
      */
     public function loadUserByUsername($username): UserInterface
     {
@@ -38,42 +45,38 @@ class UserProvider implements UserProviderInterface, PasswordUpgraderInterface
     }
 
     /**
-     * Refreshes the user after being reloaded from the session.
-     *
-     * When a user is logged in, at the beginning of each request, the
-     * User object is loaded from the session and then this method is
-     * called. Your job is to make sure the user's data is still fresh by,
-     * for example, re-querying for fresh User data.
-     *
-     * If your firewall is "stateless: true" (for a pure API), this
-     * method is not called.
+     * Cette méthode permet de rafraîchir les données de l'utilisateur.
      */
     public function refreshUser(UserInterface $user): UserInterface
     {
-        if (!$user instanceof UserTest) {
+        // Vérifiez que l'utilisateur est bien une instance de User
+        if (!$user instanceof User) {
             throw new UnsupportedUserException(sprintf('Invalid user class "%s".', $user::class));
         }
 
-        // Return a User object after making sure its data is "fresh".
-        // Or throw a UsernameNotFoundException if the user no longer exists.
-        throw new \Exception('TODO: fill in refreshUser() inside '.__FILE__);
+        // Retourner l'utilisateur après avoir rafraîchi ses données (si nécessaire)
+        return $user;
     }
 
     /**
-     * Tells Symfony to use this provider for this User class.
+     * Indique si ce provider prend en charge la classe spécifiée (User dans ce cas).
      */
     public function supportsClass(string $class): bool
     {
-        return UserTest::class === $class || is_subclass_of($class, UserTest::class);
+        // Vérifiez que la classe fournie est bien la classe User
+        return User::class === $class || is_subclass_of($class, User::class);
     }
 
     /**
-     * Upgrades the hashed password of a user, typically for using a better hash algorithm.
+     * Met à jour le mot de passe d'un utilisateur, par exemple avec un nouvel algorithme de hachage.
      */
-    public function upgradePassword(PasswordAuthenticatedUserInterface $user, string $newHashedPassword): void
+    public function upgradePassword(UserInterface $user, string $newHashedPassword): void
     {
-        // TODO: when hashed passwords are in use, this method should:
-        // 1. persist the new password in the user storage
-        // 2. update the $user object with $user->setPassword($newHashedPassword);
+        if (!$user instanceof User) {
+            throw new UnsupportedUserException('User must be an instance of App\Entity\User');
+        }
+
+        // Mettez à jour le mot de passe de l'utilisateur
+        $user->setPassword($newHashedPassword);
     }
 }

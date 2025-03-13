@@ -3,10 +3,11 @@
 namespace App\Form;
 
 use App\Entity\User;
+use App\Entity\Subscription;  // Assurez-vous que cette classe est bien importée
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
-use Symfony\Component\Form\Extension\Core\Type\TextType; // Assurez-vous d'utiliser TextType pour lastname et firstname
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\IsTrue;
@@ -19,10 +20,13 @@ class RegistrationFormType extends AbstractType
     {
         $builder
             ->add('email')
-            ->add('lastname', TextType::class, [
-                'required' => true,
-            ])
-            ->add('firstname', TextType::class, [
+            ->add('lastname')
+            ->add('firstname')
+            ->add('subscription', EntityType::class, [
+                'class' => Subscription::class, // La classe de l'entité Subscription
+                'choice_label' => 'name', // L'attribut à afficher pour chaque abonnement
+                'label' => 'Abonnement',
+                'placeholder' => 'Choisissez un abonnement', // Optionnel: ajoute un placeholder
                 'required' => true,
             ])
             ->add('agreeTerms', CheckboxType::class, [

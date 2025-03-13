@@ -26,3 +26,9 @@ pdf_generation:
 register:
     path: /register
     controller: App\Controller\RegistrationController::register
+
+reset_password:
+    path: /reset-password/{token}
+    controller: App\Controller\ResetPasswordController::reset
+    requirements:
+        token: .+

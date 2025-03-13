@@ -64,6 +64,12 @@
                     Créer un compte
                 </a>
             </div>
+
+            <div class="mt-4 text-center">
+                <p class="text-sm text-gray-600">
+                    <a href="{{ path('reset_password', {'token': 'some-token'}) }}" class="font-medium text-indigo-600 hover:underline">Mot de passe oublié ?</a>
+                </p>
+            </div>
         </div>
     </div>
 {% endblock %}

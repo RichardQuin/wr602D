@@ -17,9 +17,9 @@ class PdfGeneratorService
     }
 
     /**
-     * Génère un PDF à partir d'une URL
+     * Génère un PDF à partir d'une URL et l'enregistre avec un nom basé sur la date/heure.
      */
-    public function generatePdfFromUrl(string $url): ?Response
+    public function generatePdfFromUrl(string $url ,$pdfFileName): ?Response
     {
         try {
             $response = $this->client->request('POST', "{$this->gotenbergUrl}/forms/chromium/convert/url", [
@@ -31,15 +31,23 @@ class PdfGeneratorService
                 throw new \Exception('Erreur Gotenberg: ' . $response->getStatusCode() . ' - ' . $response->getContent(false));
             }
 
-            // 🔥 Sauvegarde le PDF pour test
-            file_put_contents('gotenberg_test.pdf', $response->getContent(false));
+            // 🕒 Générer un nom unique basé sur la date et l'heure
+            $pdfPath = "pdf/{$pdfFileName}"; // 📂 Enregistrement dans /pdf directement
+
+            // 📂 Vérifier si le dossier "pdf" existe, sinon le créer
+            if (!is_dir('pdf')) {
+                mkdir('pdf', 0775, true);
+            }
+
+            // 💾 Sauvegarder le PDF généré dans /pdf
+            file_put_contents($pdfPath, $response->getContent(false));
 
             return new Response(
                 $response->getContent(false),
                 Response::HTTP_OK,
                 [
                     'Content-Type' => 'application/pdf',
-                    'Content-Disposition' => 'attachment; filename="document.pdf"',
+                    'Content-Disposition' => "attachment; filename=\"{$pdfFileName}\"",
                     'Content-Length' => strlen($response->getContent(false)), // 🛠️ Assure la bonne transmission
                 ]
             );

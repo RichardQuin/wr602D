@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Changer d'abonnement{% endblock %}
+
+{% block body %}
+    <div class="container mx-auto px-4 py-16 max-w-6xl">
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-gray-900 mb-4">Choisissez votre nouvel abonnement</h1>
+            <p class="text-xl text-gray-600">Sélectionnez un nouveau plan pour remplacer votre abonnement actuel.</p>
+        </div>
+
+        <div class="grid md:grid-cols-{{ subscriptions|length }} gap-8">
+            {% for subscription in subscriptions %}
+                <div class="bg-white border border-gray-200 rounded-lg p-8 text-center hover:shadow-xl transition-all duration-300 ease-in-out
+                    {% if activeSubscription and subscription.id == activeSubscription.id %}border-green-500{% endif %}">
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-4">{{ subscription.name }}</h2>
+
+                    <div class="text-4xl font-bold {% if activeSubscription and subscription.id == activeSubscription.id %}text-green-600{% else %}text-blue-600{% endif %} mb-6">
+                        {% if subscription.price == 0 %}
+                            Gratuit
+                        {% else %}
+                            {{ subscription.price|number_format(2, ',', ' ') }}€
+                        {% endif %}
+                    </div>
+
+                    <ul class="mb-8 space-y-3 text-gray-600">
+                        <li>{{ subscription.description|default('Avantages exclusifs') }}</li>
+                    </ul>
+
+                    {% if activeSubscription and subscription.id == activeSubscription.id %}
+                        <p class="text-green-600 font-semibold">Abonnement actuel</p>
+                    {% else %}
+                        <a href="{{ path('subscription_update', {'id': subscription.id}) }}"
+                           class="w-full block text-center py-3 rounded-md bg-blue-600 text-white hover:bg-blue-700">
+                            Sélectionner
+                        </a>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

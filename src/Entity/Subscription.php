@@ -37,9 +37,6 @@ class Subscription
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $special_price_to = null;
 
-    /**
-     * @var Collection<int, User>
-     */
     #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'subscription', orphanRemoval: true)]
     private Collection $users;
 
@@ -137,9 +134,6 @@ class Subscription
         return $this;
     }
 
-    /**
-     * @return Collection<int, User>
-     */
     public function getUsers(): Collection
     {
         return $this->users;
@@ -158,7 +152,6 @@ class Subscription
     public function removeUser(User $user): static
     {
         if ($this->users->removeElement($user)) {
-            // set the owning side to null (unless already changed)
             if ($user->getSubscription() === $this) {
                 $user->setSubscription(null);
             }

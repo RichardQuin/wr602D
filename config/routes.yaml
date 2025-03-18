@@ -1,0 +1,34 @@
+controllers:
+    resource:
+        path: ../src/Controller/
+        namespace: App\Controller
+    type: attribute
+app_login:
+    path: /login
+    controller: App\Controller\LoginController::login
+
+homepage:
+    path: /
+    controller: App\Controller\HomeController::index
+
+subscription_change:
+    path: /subscription/change
+    controller: App\Controller\SubscriptionController::changeSubscription
+
+history:
+    path: /history
+    controller: App\Controller\HistoryController::index
+
+pdf_generation:
+    path: /pdf/generate
+    controller: App\Controller\PdfController::generatePdf
+
+register:
+    path: /register
+    controller: App\Controller\RegistrationController::register
+
+reset_password:
+    path: /reset-password/{token}
+    controller: App\Controller\ResetPasswordController::reset
+    requirements:
+        token: .+

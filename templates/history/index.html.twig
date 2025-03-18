@@ -13,7 +13,7 @@
                 <span class="text-gray-700">{{ remainingPdf }} PDF restants</span>
             </div>
             <div class="w-full bg-gray-200 rounded-full h-4">
-                <div class="bg-blue-600 h-4 rounded-full" style="width: {{ progressPercentage }}%"></div>
+                <div class="bg-blue-600 h-4 rounded-full progress-bar" style="width: {{ progressPercentage }}%"></div>
             </div>
         </div>
 
@@ -35,9 +35,6 @@
                             <td class="px-6 py-4 whitespace-nowrap">{{ file.createdAt|date('d/m/Y H:i') }}</td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <a href="{{ path('file_download', {'id': file.id}) }}" class="text-blue-600 hover:text-blue-800 mr-4">Télécharger</a>
-                                {% if file.path|lower ends with '.pdf' %}
-                                    <a href="{{ path('file_view', {'id': file.id}) }}" class="text-blue-600 hover:text-blue-800">Voir</a>
-                                {% endif %}
                             </td>
                         </tr>
                     {% endfor %}
@@ -50,4 +47,32 @@
             </div>
         {% endif %}
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const subscriptionId = {{ subscriptionId }};
+            const generatedPdfCount = {{ generatedPdfCount }};
+            const maxPdf = {{ maxPdf }};
+
+            // Calcul de la progression
+            const progressPercentage = (generatedPdfCount / maxPdf) * 100;
+            const progressBar = document.querySelector('.progress-bar');
+
+            // Mise à jour de la barre de progression
+            progressBar.style.width = `${progressPercentage}%`;
+
+            // Mettre à jour dynamiquement si l'abonnement change
+            window.addEventListener('subscriptionChanged', function(event) {
+                const newSubscriptionId = event.detail.subscriptionId;
+                if (newSubscriptionId !== subscriptionId) {
+                    // Actualiser les données de la progression
+                    const remainingPdf = Math.max(0, maxPdf - generatedPdfCount);
+                    const progressPercentage = Math.min(100, (generatedPdfCount / maxPdf) * 100);
+
+                    // Mettez à jour le style de la barre de progression
+                    progressBar.style.width = `${progressPercentage}%`;
+                }
+            });
+        });
+    </script>
 {% endblock %}

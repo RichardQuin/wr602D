@@ -41,7 +41,10 @@
         "symfony/ux-turbo": "^2.23",
         "symfony/validator": "7.2.*",
         "symfony/web-link": "7.2.*",
+        "symfony/webpack-encore-bundle": "^2.2",
         "symfony/yaml": "7.2.*",
+        "symfonycasts/reset-password-bundle": "^1.23",
+        "symfonycasts/verify-email-bundle": "^1.17",
         "twig/extra-bundle": "^2.12|^3.0",
         "twig/twig": "^2.12|^3.0"
     },
@@ -97,6 +100,7 @@
         }
     },
     "require-dev": {
+        "doctrine/doctrine-fixtures-bundle": "^4.0",
         "phpmd/phpmd": "^2.15",
         "phpstan/phpstan": "^2.1",
         "phpunit/phpunit": "^9.5",

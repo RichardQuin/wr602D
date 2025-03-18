@@ -1,0 +1,14 @@
+services:
+  symfony:
+    build: .
+    container_name: symfony
+    depends_on:
+      - gotenberg
+    environment:
+      GOTENBERG_URL: "http://gotenberg:3000"
+
+  gotenberg:
+    image: gotenberg/gotenberg:8
+    container_name: gotenberg
+    ports:
+      - "3000:3000"

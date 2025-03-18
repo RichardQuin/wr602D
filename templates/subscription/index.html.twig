@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Changer d'abonnement{% endblock %}
+
+{% block body %}
+    <div class="container mx-auto px-4 py-16 max-w-6xl">
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-gray-900 mb-4">Choisissez votre abonnement</h1>
+            <p class="text-xl text-gray-600">Sélectionnez le plan qui correspond le mieux à vos besoins</p>
+        </div>
+
+        <div class="grid md:grid-cols-{{ subscriptions|length }} gap-8">
+            {% for subscription in subscriptions %}
+                <div class="bg-white border border-gray-200 rounded-lg p-8 text-center hover:shadow-xl transition-all duration-300 ease-in-out {% if loop.first %}border-green-500{% endif %}">
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-4">{{ subscription.name }}</h2>
+                    <div class="text-4xl font-bold {% if loop.first %}text-green-600{% else %}text-blue-600{% endif %} mb-6">
+                        {% if loop.first %}
+                            Gratuit
+                        {% else %}
+                            {{ subscription.price|number_format(2, ',', ' ') }}€
+                            <span class="text-base text-gray-500 block">par mois</span>
+                        {% endif %}
+                    </div>
+                    <ul class="mb-8 space-y-3 text-gray-600">
+                        <li>{{ subscription.description|default('Avantages exclusifs') }}</li>
+                    </ul>
+                    <a href="{{ path('subscription_subscribe', {'id': subscription.id}) }}"
+                       class="w-full block text-center py-3 rounded-md transition-colors {% if loop.first %}bg-green-600 text-white hover:bg-green-700{% else %}bg-blue-600 text-white hover:bg-blue-700{% endif %}">
+                        Sélectionner
+                    </a>
+                </div>
+            {% endfor %}
+        </div>
+
+        <div class="mt-12 text-center">
+            <p class="text-gray-600">
+                Besoin d'aide pour choisir ?
+                <a href="#" class="text-blue-600 hover:underline">Contactez notre support</a>
+            </p>
+        </div>
+    </div>
+{% endblock %}

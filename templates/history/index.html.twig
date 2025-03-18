@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Historique des PDF{% endblock %}
+
+{% block body %}
+    <div class="container mx-auto px-4 py-8 max-w-6xl">
+        <h1 class="text-3xl font-bold mb-8">Historique de vos PDF générés</h1>
+
+        <!-- Barre de progression -->
+        <div class="mb-8">
+            <div class="flex justify-between mb-2">
+                <span class="text-gray-700">Utilisation PDF ({{ generatedPdfCount }}/{{ maxPdf }})</span>
+                <span class="text-gray-700">{{ remainingPdf }} PDF restants</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-4">
+                <div class="bg-blue-600 h-4 rounded-full progress-bar" style="width: {{ progressPercentage }}%"></div>
+            </div>
+        </div>
+
+        <!-- Liste des PDF générés -->
+        {% if fileHistory|length > 0 %}
+            <div class="bg-white rounded-lg shadow overflow-hidden">
+                <table class="min-w-full">
+                    <thead class="bg-gray-100">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nom du fichier</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date de création</th>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                    {% for file in fileHistory %}
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ file.name }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">{{ file.createdAt|date('d/m/Y H:i') }}</td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <a href="{{ path('file_download', {'id': file.id}) }}" class="text-blue-600 hover:text-blue-800 mr-4">Télécharger</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <div class="bg-white rounded-lg shadow p-6 text-center">
+                <p class="text-gray-600">Vous n'avez pas encore généré de PDF.</p>
+            </div>
+        {% endif %}
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const subscriptionId = {{ subscriptionId }};
+            const generatedPdfCount = {{ generatedPdfCount }};
+            const maxPdf = {{ maxPdf }};
+
+            // Calcul de la progression
+            const progressPercentage = (generatedPdfCount / maxPdf) * 100;
+            const progressBar = document.querySelector('.progress-bar');
+
+            // Mise à jour de la barre de progression
+            progressBar.style.width = `${progressPercentage}%`;
+
+            // Mettre à jour dynamiquement si l'abonnement change
+            window.addEventListener('subscriptionChanged', function(event) {
+                const newSubscriptionId = event.detail.subscriptionId;
+                if (newSubscriptionId !== subscriptionId) {
+                    // Actualiser les données de la progression
+                    const remainingPdf = Math.max(0, maxPdf - generatedPdfCount);
+                    const progressPercentage = Math.min(100, (generatedPdfCount / maxPdf) * 100);
+
+                    // Mettez à jour le style de la barre de progression
+                    progressBar.style.width = `${progressPercentage}%`;
+                }
+            });
+        });
+    </script>
+{% endblock %}

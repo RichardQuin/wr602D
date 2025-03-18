@@ -20,7 +20,11 @@ class File
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $created_at = null;
 
-    #[ORM\ManyToOne(inversedBy: 'file')]
+    #[ORM\Column(length: 255)] // Ajout de la colonne 'path' pour stocker le chemin du fichier
+    private ?string $path = null;
+
+    #[ORM\ManyToOne(inversedBy: 'file', cascade: ['persist'])]
+    #[ORM\JoinColumn(nullable: false)] // Assure qu'un fichier est toujours lié à un utilisateur
     private ?User $account = null;
 
     public function getId(): ?int
@@ -48,6 +52,18 @@ class File
     public function setCreatedAt(\DateTimeInterface $created_at): static
     {
         $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    public function getPath(): ?string
+    {
+        return $this->path; // Méthode pour obtenir le chemin du fichier
+    }
+
+    public function setPath(string $path): static
+    {
+        $this->path = $path; // Méthode pour définir le chemin du fichier
 
         return $this;
     }
